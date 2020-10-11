@@ -32,7 +32,7 @@ class Board extends Command
             return Command::FAILURE;
         }
 
-        $io->title('Доска: ' . $board_name);
+        $io->title('Доска: ' . $board);
 
         if (!empty($result['board_data']['threads'])) {
             $io->table(['#', 'Имя', 'Тема', 'Сообщение'], array_map(function ($thread) {
