@@ -1,0 +1,19 @@
+{
+    "name": "ridouchire/pissyfront",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "ridouchire",
+            "email": "ridouchire@gmail.com"
+        }
+    ],
+    "require": {
+        "symfony/console": "^5.1",
+        "guzzlehttp/guzzle": "^7.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "PF\\": "src/"
+        }
+    }
+}
