@@ -31,18 +31,18 @@ class Reply extends Command
         $requestor = new Requestor();
 
         try {
-            $result = $requestor(Requestor::CREATE_POST, ['form_params' => [
+            $result = $requestor(Requestor::CREATE_POST, [
                 'board_name' => $board,
                 'message'    => $message,
                 'parent_id'  => $parent_id
-            ]]);
+            ])->getResponse();
         } catch (\Throwable $e) {
             $io->error('Ошибка создания ответа: ' . $e->getMessage());
 
             return Command::FAILURE;
         }
 
-        $io->success('Ответ #' . $result['payload']['id'] . ' на тред #' . $parent_id . ' был отправлен');
+        $io->success('Ответ #' . $result['id'] . ' на тред #' . $parent_id . ' был отправлен');
 
         return Command::SUCCESS;
 

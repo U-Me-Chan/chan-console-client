@@ -32,8 +32,6 @@ class Thread extends Command
 
             return Command::FAILURE;
         }
-
-        $io->title('Тред #' . $id);
         
         $posts = array_merge([reset($result['thread_data'])], $result['thread_data']['replies']);
 

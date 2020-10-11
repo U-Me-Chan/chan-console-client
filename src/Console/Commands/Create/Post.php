@@ -31,18 +31,18 @@ class Post extends Command
         $requestor = new Requestor();
 
         try {
-            $result = $requestor(Requestor::CREATE_POST, ['form_params' => [
+            $result = $requestor(Requestor::CREATE_POST, [
                 'board_name' => $board,
                 'subject'    => $subject,
                 'message'    => $message
-            ]]);
+            ])->getResponse();
         } catch (\Throwable $e) {
             $io->error('Ошибка создания поста: ' . $e->getMessage());
 
             return Command::FAILURE;
         }
 
-        $io->note('Тред #' . $result['payload']['id'] . 'был создан');
+        $io->note('Тред #' . $result['id'] . 'был создан');
 
         return Command::SUCCESS;
     }
