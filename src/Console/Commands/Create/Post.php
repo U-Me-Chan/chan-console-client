@@ -32,7 +32,7 @@ class Post extends Command
 
         try {
             $result = $requestor(Requestor::CREATE_POST, [
-                'board_name' => $board,
+                'tag' => $board,
                 'subject'    => $subject,
                 'message'    => $message
             ])->getResponse();
@@ -42,7 +42,7 @@ class Post extends Command
             return Command::FAILURE;
         }
 
-        $io->note('Тред #' . $result['id'] . 'был создан');
+        $io->note('Тред #' . $result['post_id'] . ' был создан');
 
         return Command::SUCCESS;
     }

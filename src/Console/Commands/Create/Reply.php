@@ -15,14 +15,12 @@ class Reply extends Command
     {
         $this->setName('create:reply')
              ->setDescription('Создаёт новый ответ')
-             ->addArgument('board', InputArgument::REQUIRED, 'Имя доски')
              ->addArgument('parent_id', InputArgument::REQUIRED, 'Идентификатор родительского поста')
              ->addArgument('message', InputArgument::REQUIRED, 'Сообщение');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $board     = $input->getArgument('board');
         $parent_id = $input->getArgument('parent_id');
         $message   = $input->getArgument('message');
 
@@ -32,7 +30,6 @@ class Reply extends Command
 
         try {
             $result = $requestor(Requestor::CREATE_POST, [
-                'board_name' => $board,
                 'message'    => $message,
                 'parent_id'  => $parent_id
             ])->getResponse();
@@ -42,7 +39,7 @@ class Reply extends Command
             return Command::FAILURE;
         }
 
-        $io->success('Ответ #' . $result['id'] . ' на тред #' . $parent_id . ' был отправлен');
+        $io->success('Ответ #' . $result['post_id'] . ' на тред #' . $parent_id . ' был отправлен');
 
         return Command::SUCCESS;
 

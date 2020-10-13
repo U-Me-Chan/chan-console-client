@@ -24,8 +24,13 @@ class Board extends Command
         $io = new SymfonyStyle($input, $output);
 
         $requestor = new Requestor();
+
         try {
-            $result = $requestor(Requestor::FETCH_BOARD, ['name' => $board])->getResponse();
+            $result = $requestor(Requestor::FETCH_BOARD, $board)->getResponse();
+        }catch (\OutOfBoundsException $e) {
+            $io->caution('На доске ещё нет постов');
+
+            return Command::FAILURE;
         } catch (\Throwable $e) {
             $io->error('Ошибка чтения доски ' . $e->getMessage());
 

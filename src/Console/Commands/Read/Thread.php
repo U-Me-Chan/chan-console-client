@@ -26,18 +26,22 @@ class Thread extends Command
         $requestor = new Requestor();
 
         try {
-            $result = $requestor(Requestor::FETCH_THREAD, ['id' => $id])->getResponse();
+            $result = $requestor(Requestor::FETCH_THREAD, $id)->getResponse();
         } catch (\Throwable $e) {
             $io->error('Ошибка чтения треда: ' . $e->getMessage());
 
             return Command::FAILURE;
         }
-        
-        $posts = array_merge([reset($result['thread_data'])], $result['thread_data']['replies']);
+
+        $replies = $result['thread_data']['replies'];
+        $parent_post = $result['thread_data'];
+
+        $posts = array_merge([$parent_post], $replies);
 
         foreach ($posts as $post) {
             $io->section('Пост #' . $post['id']);
             $io->text('Имя: ' . $post['poster']);
+            $io->text('Тема: ' . $post['subject']);
             $io->text('Сообщение: ' . $post['message']);
         }
 
