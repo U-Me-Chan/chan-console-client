@@ -42,7 +42,9 @@ class Thread extends Command
             $io->section('Пост #' . $post['id']);
             $io->text('Имя: ' . $post['poster']);
             $io->text('Тема: ' . $post['subject']);
-            $io->text('Сообщение: ' . $post['message']);
+            $io->text('Сообщение: ');
+            $io->newLine();
+            $io->text($post['message']);
         }
 
         return Command::SUCCESS;
