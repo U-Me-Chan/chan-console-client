@@ -8,8 +8,7 @@ PissyFront
 
 Для работы данного приложения понадобится PHP>=7.3 и composer.
 
-`git clone https://github.com/ridouchire/pissyfront && cd pissyfront`
-`composer install`
+`git clone https://github.com/ridouchire/pissyfront && cd pissyfront && composer install`
 
 Использование
 --------------
