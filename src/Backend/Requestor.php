@@ -11,7 +11,7 @@ class Requestor
     public const FETCH_THREAD = 'FETCH_THREAD';
     public const CREATE_POST = 'CREATE_POST';
 
-    private const BASE_URI = 'http://pissykaka.scheoble.ml';
+    private const BASE_URI = 'http://pissykaka.scheoble.xyz';
 
     /** @var Client */
     private $client;
