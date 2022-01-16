@@ -41,7 +41,12 @@ class Board extends Command
 
         if (!empty($result['board_data']['threads'])) {
             $io->table(['#', 'Имя', 'Тема', 'Сообщение'], array_map(function ($thread) {
-                return [$thread['id'], $thread['poster'], $thread['subject'], substr($thread['message'], 0, 30)];
+                return [
+                    $thread['id'],
+                    $thread['poster'],
+                    empty($thread['subject']) ? substr($thread['message'], 0, 100) : $thread['subject'],
+                    substr($thread['message'], 0, 30)
+                ];
             }, $result['board_data']['threads']));
         }
         
