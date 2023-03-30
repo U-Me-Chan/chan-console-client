@@ -8,6 +8,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use PF\Backend\Requestor;
+use Symfony\Component\Console\Helper\Table;
+use Symfony\Component\Console\Helper\TableSeparator;
 
 class Board extends Command
 {
@@ -37,19 +39,38 @@ class Board extends Command
             return Command::FAILURE;
         }
 
-        $io->title('Доска: ' . $board);
-
         if (!empty($result['board_data']['threads'])) {
-            $io->table(['#', 'Имя', 'Тема', 'Сообщение'], array_map(function ($thread) {
+            $table = new Table($output);
+            $table->setHeaders(['#', 'Автор', 'Тема', 'Сообщение']);
+
+            $rows = array_map(function ($thread) {
                 return [
                     $thread['id'],
-                    $thread['poster'],
-                    empty($thread['subject']) ? substr($thread['message'], 0, 100) : $thread['subject'],
-                    substr($thread['message'], 0, 30)
+                    $this->formatText($thread['poster']),
+                    !empty($thread['subject']) ? $this->formatText($thread['subject']) : $this->formatText($thread['truncated_message']),
+                    $this->formatText($thread['truncated_message'])
                 ];
-            }, $result['board_data']['threads']));
+            }, $result['board_data']['threads']);
+
+            $table->setRows($rows);
+            $table->setStyle('box-double');
+
+            $table->render();
         }
         
         return Command::SUCCESS;
+    }
+
+    private function formatText(string $text): string
+    {
+        if (mb_strlen($text) > 50) {
+            $text = mb_substr($text, 0, 50);
+        }
+
+        $text = trim($text);
+        $text = rtrim($text);
+        $text = preg_replace('~[\r\n\t]+~', '', $text);
+
+        return $text;
     }
 }

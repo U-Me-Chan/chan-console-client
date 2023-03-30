@@ -11,7 +11,7 @@ class Requestor
     public const FETCH_THREAD = 'FETCH_THREAD';
     public const CREATE_POST = 'CREATE_POST';
 
-    private const BASE_URI = 'http://pissykaka.scheoble.xyz';
+    private const BASE_URI = 'https://scheoble.xyz';
 
     /** @var Client */
     private $client;
@@ -24,7 +24,14 @@ class Requestor
      */
     public function __construct()
     {
-        $this->client = new Client(['base_uri' => self::BASE_URI, 'timeout' => 10]);
+        $this->client = new Client([
+            'base_uri' => self::BASE_URI,
+            'timeout' => 10,
+            'allow_redirects' => true,
+            'headers' => [
+                'User-Agent' => 'chan-console-client 1.0.0'
+            ]
+        ]);
     }
 
     /**
@@ -41,7 +48,7 @@ class Requestor
     {
         switch ($operation) {
             case self::FETCH_BOARD:
-                $this->makeRequest('GET', sprintf('/board/%s', $args[0]));
+                $this->makeRequest('GET', sprintf('/api/board/%s', $args[0]));
 
                 if ($this->response->getStatusCode() == 204) {
                     throw new \OutOfBoundsException();
@@ -53,7 +60,7 @@ class Requestor
 
                 break;
             case self::FETCH_THREAD:
-                $this->makeRequest('GET', sprintf('/post/%d', $args[0]));
+                $this->makeRequest('GET', sprintf('/api/post/%d', $args[0]));
 
                 if ($this->response->getStatusCode() !== 200) {
                     throw new \RuntimeException();
@@ -61,7 +68,7 @@ class Requestor
 
                 break;
             case self::CREATE_POST:
-                $this->makeRequest('POST', '/post', ['form_params' => $args[0]]);
+                $this->makeRequest('POST', '/api/post', ['form_params' => $args[0]]);
 
                 if ($this->response->getStatusCode() !== 201) {
                     throw new \RuntimeException();
